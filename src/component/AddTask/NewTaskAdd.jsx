@@ -42,6 +42,7 @@ const NewTaskAdd = () => {
       navigate("/view-task")
     }
     else{
+      count = 0
       alert("Mandatory * Input should be a value  ")
     }
 
