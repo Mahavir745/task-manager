@@ -20,7 +20,7 @@ const HandleTaskProvider = (currentTask, action) => {
   let newTask = currentTask;
   switch (action.type) {
     case "ADD-TASK":
-      newTask = [...currentTask, action.payload];
+      newTask = [action.payload,...currentTask];
       break;
 
     case "DELETE-TASK":
