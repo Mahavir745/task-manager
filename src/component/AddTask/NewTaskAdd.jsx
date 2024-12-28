@@ -21,6 +21,10 @@ const NewTaskAdd = () => {
     const priority = priorityElement.current.value;
     const status = statusElement.current.value;
     const id = Date.now()
+    titleElement.current.value=""
+    desElement.current.value=""
+    priorityElement.current.value=""
+    statusElement.current.value = ""
 
     if(title !== ""){
       count+=1
@@ -32,7 +36,7 @@ const NewTaskAdd = () => {
       count+=1
     }
 
-    if(count >= 3){
+    if(count == 3){
       const task = {title,description,priority,status,id};
       handleAddTask(task)
       navigate("/view-task")
