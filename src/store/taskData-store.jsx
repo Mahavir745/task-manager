@@ -3,11 +3,14 @@ import React, { createContext, useReducer, useState } from "react";
 export const taskDataProvider = createContext(
   {
     addTask: [],
+    editId: null,
+    setEditId: () => { },
     handleAddTask: () => { },
     handleDeleteTask: () => { },
     handleMarkCompleted: () => { },
     handleEditData: () => { },
-    handleFilterTask: ()=>{},
+    handleFilterTaskPriority: () => { },
+    handleFilterTaskStatus: () => { }
   }
 );
 
@@ -17,7 +20,7 @@ const HandleTaskProvider = (currentTask, action) => {
   let newTask = currentTask;
   switch (action.type) {
     case "ADD-TASK":
-      newTask = [...currentTask, action.payload];
+      newTask = [action.payload,...currentTask ];
       break;
 
     case "DELETE-TASK":
@@ -31,17 +34,21 @@ const HandleTaskProvider = (currentTask, action) => {
       break;
 
     case "EDIT-DATA":
-      newTask = currentTask.map(task =>
-        action.payload.id === task.id
-          ? {
-            ...task,
-            title: action.payload.newTitle,
-            descrption: action.payload.newDescrption,
-            priority: action.payload.newPriority,
-            status: action.payload.newStatus,
+      newTask = currentTask.map(task => {
+        if(action.payload.id === task.id){
+          const {newTitle,newDescrption,newPriority,newStatus} = action.payload;
+          if (task.title !== newTitle || task.description !== newDescrption || task.priority !== newPriority || task.status !== newStatus) {
+            return {
+              ...task,
+              title: newTitle || task.title,
+              description: newDescrption || task.description,
+              priority: newPriority || task.priority,
+              status: newStatus || task.status,
+            };
           }
-          : task
-      );
+        }
+        return task; 
+      });
       break;
 
     default:
@@ -53,7 +60,8 @@ const HandleTaskProvider = (currentTask, action) => {
 
 const AddDataStoreProvider = ({ children }) => {
   const [addTask, dispatchAddTask] = useReducer(HandleTaskProvider, allTask);
-  const [filterTask,setFilterTask] = useState(allTask);
+  const [filterTask, setFilterTask] = useState(allTask);
+  const [editId, setEditId] = useState(null)
 
   const handleAddTask = task => {
     dispatchAddTask({
@@ -83,20 +91,27 @@ const AddDataStoreProvider = ({ children }) => {
     });
   };
 
-  const handleFilterTask = (priority)=>{
-    const newtask = filterTask.filter((task)=> task.priority === priority)
+  const handleFilterTaskPriority = (priority) => {
+    const newtask = filterTask.filter((task) => task.priority === priority)
     setFilterTask(newtask)
   }
 
+  const handleFilterTaskStatus = (status) => {
+    const newtask = filterTask.filter((task) => task.status === status)
+    setFilterTask(newtask)
+  }
   return (
     <taskDataProvider.Provider
       value={{
         addTask,
+        editId,
+        setEditId,
         handleAddTask,
         handleDeleteTask,
         handleMarkCompleted,
         handleEditData,
-        handleFilterTask,
+        handleFilterTaskPriority,
+        handleFilterTaskStatus,
       }}
     >
       {children}
@@ -106,10 +121,14 @@ const AddDataStoreProvider = ({ children }) => {
 
 export default AddDataStoreProvider;
 
-export const getPageData = (addTask = [], page) => {
+export const getPageData = (addTask, pageNo) => {
   let array = [];
-  for (let i = (page - 1) * 5; i < page * 5 && i < addTask.length; i++) {
-    array.push(addTask[i]);
+  for (let i = (pageNo - 1) * 5; i < pageNo * 5; i++) {
+    if (i < addTask.length) {
+      array.push(addTask[i]);
+    }
   }
   return array;
 };
+
+

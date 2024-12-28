@@ -5,12 +5,14 @@ import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromElements, Route, Router, RouterProvider } from "react-router-dom"
 import Container from './component/Home/Container.jsx'
 import NewTaskAdd from './component/AddTask/NewTaskAdd.jsx'
+import EditDisplay from './component/Home/EditDisplay.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
       <Route path='/' element={<NewTaskAdd/>}/>
       <Route path='/view-task' element={<Container/>}/>
+      <Route path='/edit' element={<EditDisplay/>}/>
     </Route>
   )
 )

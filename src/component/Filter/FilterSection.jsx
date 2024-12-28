@@ -1,9 +1,12 @@
 import React from 'react'
 
-const FilterSection = ({handleFilterTask}) => {
+const FilterSection = ({handleFilterTaskPriority,handleFilterTaskStatus}) => {
 
   function HandleSelectedPriority(e){
-     handleFilterTask(e.target.value)
+    handleFilterTaskPriority(e.target.value)
+  }
+  function HandleSelectedStatus(e){
+    handleFilterTaskStatus(e.target.value)
   }
 
   return (
@@ -16,7 +19,7 @@ const FilterSection = ({handleFilterTask}) => {
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
-        <select name="status" id="status" className='w-[40%] p-2 m-auto cursor-pointer '>
+        <select name="status" id="status" className='w-[40%] p-2 m-auto cursor-pointer ' onChange={(e)=>HandleSelectedStatus(e)}>
           <option value="none">Status</option>
           <option value="pending">Pending</option>
           <option value="progress">In Progress</option>

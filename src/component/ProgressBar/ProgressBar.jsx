@@ -3,9 +3,6 @@ import { taskDataProvider } from '../../store/taskData-store';
 
 const ProgressBar = () => {
   const { addTask } = useContext(taskDataProvider);
-
-  // const addTask = JSON.parse(localStorage.getItem("alltask"))
-
   const [completed, setCompleted] = useState(0);
   const [totalTask, setTotalTask] = useState(0);
 
@@ -13,14 +10,14 @@ const ProgressBar = () => {
     if (addTask.length > 0) {
       const completedCount = addTask.filter((task) => task.status === 'completed');
       setCompleted((completedCount.length));
-      setTotalTask(addTask.length);
+      setTotalTask((addTask.length));
     } else {
       setCompleted(0);
       setTotalTask(0);
     }
   }, [addTask]);
 
-  // Calculate percentagez
+  //todo: Calculate percentage
   const percentage = totalTask > 0 ? (completed / totalTask) * 100 : 0;
 
   return (

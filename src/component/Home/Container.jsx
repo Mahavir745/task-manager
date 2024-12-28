@@ -6,7 +6,7 @@ import { taskDataProvider,getPageData } from '../../store/taskData-store'
 import WelcomeTask from './WelcomeTask'
 
 const Container = () => {
-  const {addTask, handleDeleteTask,handleMarkCompleted,handleEditData,handleFilterTask } = useContext(taskDataProvider)
+  const {addTask, handleDeleteTask,handleMarkCompleted,handleFilterTaskPriority,handleFilterTaskStatus } = useContext(taskDataProvider)
   const [previous, setPrevious] = useState(false);
   const [next, setNext] = useState(false);
   let [pageNo, setPageNo] = useState(1)
@@ -50,10 +50,10 @@ const Container = () => {
     <div className='w-[90%] m-auto p-2 flex flex-wrap-reverse justify-center gap-4'>
       <div className='flex justify-evenly gap-3 flex-col'>
         {allTaskData.length === 0 && <WelcomeTask/>}
-        {allTaskData.map((task) => <Task taskdetails={task} key={task.id} HandleDeleteTask={handleDeleteTask} handleMarkCompleted= {handleMarkCompleted} handleEditData = {handleEditData}/>)}
+        {allTaskData.map((task) => <Task taskdetails={task} key={task.id} HandleDeleteTask={handleDeleteTask} handleMarkCompleted= {handleMarkCompleted}/>)}
       </div>
       <div>
-        <FilterSection  handleFilterTask = {handleFilterTask}/>
+        <FilterSection  handleFilterTaskPriority = {handleFilterTaskPriority} handleFilterTaskStatus={handleFilterTaskStatus}/>
         <Pages HandlePrevious={HandlePrevious} HandleNext={HandleNext} allStates = {{previous,next,pageNo}}/>
       </div>
     </div>
