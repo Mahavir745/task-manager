@@ -3,7 +3,8 @@ A simple and effective task manager.
 ## Features  
 **Add Task**: Create new tasks.  
 **Delete Task**: Delete tasks that are no longer needed.  
-**Mark As Completed**: .  
+**Mark As Completed**: When task has been completed.
+**Tasks Progress**: Track your completed tasks.
 **Edit Task**: Update task details, such as title, description, priority, and status.  
 **Filter Tasks**: Filter tasks based on priority or status for better organization.  
 **Store Data**: Tasks are stored in local storage to retain data even after a page.
