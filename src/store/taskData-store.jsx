@@ -4,13 +4,13 @@ export const taskDataProvider = createContext(
   {
     addTask: [],
     editId: null,
+    filterData:[],
     setEditId: () => { },
+    setFilterData:()=>{ },
     handleAddTask: () => { },
     handleDeleteTask: () => { },
     handleMarkCompleted: () => { },
     handleEditData: () => { },
-    handleFilterTaskPriority: () => { },
-    handleFilterTaskStatus: () => { }
   }
 );
 
@@ -20,7 +20,7 @@ const HandleTaskProvider = (currentTask, action) => {
   let newTask = currentTask;
   switch (action.type) {
     case "ADD-TASK":
-      newTask = [action.payload,...currentTask ];
+      newTask = [...currentTask, action.payload];
       break;
 
     case "DELETE-TASK":
@@ -37,6 +37,7 @@ const HandleTaskProvider = (currentTask, action) => {
       newTask = currentTask.map(task => {
         if(action.payload.id === task.id){
           const {newTitle,newDescrption,newPriority,newStatus} = action.payload;
+
           if (task.title !== newTitle || task.description !== newDescrption || task.priority !== newPriority || task.status !== newStatus) {
             return {
               ...task,
@@ -60,8 +61,8 @@ const HandleTaskProvider = (currentTask, action) => {
 
 const AddDataStoreProvider = ({ children }) => {
   const [addTask, dispatchAddTask] = useReducer(HandleTaskProvider, allTask);
-  const [filterTask, setFilterTask] = useState(allTask);
   const [editId, setEditId] = useState(null)
+  const [filterData,setFilterData] = useState([]);
 
   const handleAddTask = task => {
     dispatchAddTask({
@@ -91,27 +92,18 @@ const AddDataStoreProvider = ({ children }) => {
     });
   };
 
-  const handleFilterTaskPriority = (priority) => {
-    const newtask = filterTask.filter((task) => task.priority === priority)
-    setFilterTask(newtask)
-  }
-
-  const handleFilterTaskStatus = (status) => {
-    const newtask = filterTask.filter((task) => task.status === status)
-    setFilterTask(newtask)
-  }
   return (
     <taskDataProvider.Provider
       value={{
         addTask,
         editId,
+        filterData,
+        setFilterData,
         setEditId,
         handleAddTask,
         handleDeleteTask,
         handleMarkCompleted,
         handleEditData,
-        handleFilterTaskPriority,
-        handleFilterTaskStatus,
       }}
     >
       {children}

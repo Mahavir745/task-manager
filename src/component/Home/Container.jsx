@@ -6,13 +6,20 @@ import { taskDataProvider,getPageData } from '../../store/taskData-store'
 import WelcomeTask from './WelcomeTask'
 
 const Container = () => {
-  const {addTask, handleDeleteTask,handleMarkCompleted,handleFilterTaskPriority,handleFilterTaskStatus } = useContext(taskDataProvider)
+  const {addTask, handleDeleteTask,handleMarkCompleted,filterData} = useContext(taskDataProvider)
   const [previous, setPrevious] = useState(false);
   const [next, setNext] = useState(false);
   let [pageNo, setPageNo] = useState(1)
 
-  const allTaskData = getPageData(addTask,pageNo)
-  console.log(allTaskData)
+  let allTaskData;
+
+  if(filterData.length > 0){
+    console.log(true)
+   allTaskData = getPageData(filterData,pageNo)
+  }
+  else{
+   allTaskData = getPageData(addTask,pageNo)
+  }
 
 
   function HandlePrevious() {
@@ -53,7 +60,7 @@ const Container = () => {
         {allTaskData.map((task) => <Task taskdetails={task} key={task.id} HandleDeleteTask={handleDeleteTask} handleMarkCompleted= {handleMarkCompleted}/>)}
       </div>
       <div>
-        <FilterSection  handleFilterTaskPriority = {handleFilterTaskPriority} handleFilterTaskStatus={handleFilterTaskStatus}/>
+        <FilterSection/>
         <Pages HandlePrevious={HandlePrevious} HandleNext={HandleNext} allStates = {{previous,next,pageNo}}/>
       </div>
     </div>
