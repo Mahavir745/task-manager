@@ -23,8 +23,8 @@ const NewTaskAdd = () => {
     const id = Date.now()
     titleElement.current.value=""
     desElement.current.value=""
-    priorityElement.current.value=""
-    statusElement.current.value = ""
+    priorityElement.current.value="none"
+    statusElement.current.value = "none"
 
     if(title !== ""){
       count+=1
